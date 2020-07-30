@@ -9,9 +9,8 @@ from pages import links
 
 @pytest.fixture()
 def page(browser):
-    link = links.MAIN_PAGE
-    page = MainPage(browser, link)
-    with allure.step(f'Открываем {link}'):
+    page = MainPage(browser, links.MAIN_PAGE)
+    with allure.step(f'Открываем {links.MAIN_PAGE}'):
         page.open()
     return page
 
@@ -34,6 +33,7 @@ def test_guest_can_go_to_checkout(page):
 
 
 @allure.title('Проверка работы кнопок топ-бара')
+@allure.feature('Parametrized')
 @allure.severity(allure.severity_level.NORMAL)
 @pytest.mark.parametrize('param_btn', [[BasePageLocators.HOME_PAGE_ICON, links.MAIN_PAGE],
                                        [BasePageLocators.MAC_TOP_MENU_BTN, links.MAC_PAGE],
@@ -59,6 +59,7 @@ def test_search_bar_is_displayed(page):
     with allure.step('Проверяем появилось ли поле поиска'):
         assert page.is_element_present(BasePageLocators.SEARCH_BAR), 'Поле поиска остутствует'
 
+
 @allure.title('Проверка работы поиска')
 @allure.severity(allure.severity_level.NORMAL)
 @pytest.mark.parametrize('param_search_text', ['apple', 'iphone', 'mac'])
@@ -66,7 +67,7 @@ def test_search_is_working_right(page, param_search_text):
     with allure.step('Кликаем по иконке поиска'):
         page.click_to(BasePageLocators.SEARCH_TOP_MENU_BTN)
     with allure.step(f'Вводим {param_search_text}'):
-        page.send_string_and_submit(BasePageLocators.SEARCH_BAR, param_search_text)
+        page.send_string_and_press_enter(BasePageLocators.SEARCH_BAR, param_search_text)
     with allure.step('Проверяем что поисковая выдача работает'):
         assert page.is_element_present(SearchPageLocators.SEARCH_ORGANIC_LIST), 'Поисковой выдачи нет'
 

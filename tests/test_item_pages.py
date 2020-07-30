@@ -5,14 +5,15 @@ from pages.locators import ItemPageLocators
 from pages import links
 
 
+@allure.feature('Parametrized')
 @pytest.mark.parametrize('link', links.ITEM_PAGES_LIST)
 class TestItemPages(object):
     @pytest.fixture()
     def page(self, browser, link):
         page = ProductPage(browser, link)
-        with allure.step(f'Открываем {link}'):
+        with allure.step(f'Открываем страницу {link}'):
             page.open()
-        return page
+            return page
 
     @allure.title('Проверка работы перехода по кнопке купить')
     @allure.severity(allure.severity_level.NORMAL)
@@ -20,4 +21,4 @@ class TestItemPages(object):
         with allure.step('Переходим по кнопке купить'):
             page.click_to(ItemPageLocators.BUY_BTN)
         with allure.step('Проверяем, что мы на странице конфигуратора'):
-            assert page.is_buy_page(page.browser.current_url)
+            assert page.is_buy_page(page.browser.current_url), 'Пользователь не на странице конфигуратора'

@@ -5,6 +5,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.common.keys import Keys
 
 
 
@@ -70,6 +71,12 @@ class BasePage():
         self.browser.find_element(*locator).send_keys(text)
 
     def send_string_and_submit(self, locator, text):
-        self.browser.find_element(*locator).send_keys(text)
-        self.browser.find_element(*locator).submit()
+        elem = self.browser.find_element(*locator)
+        elem.send_keys(text)
+        elem.submit()
+
+    def send_string_and_press_enter(self, locator, text):
+        elem = self.browser.find_element(*locator)
+        elem.send_keys(text)
+        elem.send_keys(Keys.ENTER)
 
