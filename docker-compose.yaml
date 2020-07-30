@@ -2,9 +2,9 @@ version: '3.5'
 
 services:
   selenoid:
-    image: aerokube/selenoid:latest
+    image: aerokube/selenoid
     volumes:
-      - "./init/selenoid:/etc/selenoid"
+      - "./config:/etc/selenoid"
       - "./work/selenoid/video:/opt/selenoid/video"
       - "./work/selenoid/logs:/opt/selenoid/logs"
       - "/var/run/docker.sock:/var/run/docker.sock"
@@ -15,18 +15,21 @@ services:
       - "4444:4444"
     network_mode: bridge
 
-  jenkins:
-    image: jenkins/jenkins:lts
-    volumes:
-      - ./work/jenkins:/var/jenkins_home
-    ports:
-      - 8000:8080
+  selenoid-ui:
+    image: aerokube/selenoid-ui
     network_mode: bridge
+    links:
+      - selenoid
+    ports:
+      - "8080:8080"
+    command: ["--selenoid-uri", "http://selenoid:4444"]
 
-  jira:
-    image: atlassian/jira-software
+  tests:
+    build:
+      context: .
+      dockerfile: dockerfile_applecomru_ui_tests
     volumes:
-      - "./work/jira:/var/atlassian/application-data/jira"
-    ports:
-      - "9999:8080"
-    network_mode: bridge
+      - "./allure_results:/allure_results"
+      - "./screenshots:/screenshots"
+    network_mode: host
+

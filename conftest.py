@@ -52,7 +52,7 @@ def browser(request):
     browser.implicitly_wait(10)
     yield browser
 
-    env_file = open('./allure-results/environment.properties', 'w+')
+    env_file = open('./allure_results/environment.properties', 'w+')
     env_file.write(f'OS.version={platform.platform()}'
                    f'\nPython.version={platform.python_version()}'
                    f'\nPytest.version={pytest.__version__}'
