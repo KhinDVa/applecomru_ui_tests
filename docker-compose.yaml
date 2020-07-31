@@ -1,7 +1,8 @@
-version: '3.5'
+version: '3.8'
 
 services:
   selenoid:
+    container_name: selenoid-test
     image: aerokube/selenoid
     volumes:
       - "./config:/etc/selenoid"
@@ -16,6 +17,7 @@ services:
     network_mode: bridge
 
   selenoid-ui:
+    container_name: selenoid-ui-test
     image: aerokube/selenoid-ui
     network_mode: bridge
     links:
@@ -25,11 +27,12 @@ services:
     command: ["--selenoid-uri", "http://selenoid:4444"]
 
   tests:
+    container_name: tests
     build:
       context: .
       dockerfile: dockerfile_applecomru_ui_tests
     volumes:
-      - "./allure_results:/allure_results"
-      - "./screenshots:/screenshots"
+      - "./allure_results:/applecomru_ui_tests/allure_results"
+      - "./screenshots:/applecomru_ui_tests/screenshots"
     network_mode: host
 

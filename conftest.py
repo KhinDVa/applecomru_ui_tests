@@ -10,7 +10,7 @@ import selenium
 
 def pytest_addoption(parser):
     parser.addoption('--browser', action='store', default='chrome', help='Available: chrome, firefox, opera')
-    parser.addoption('--executor', action='store', default='local', help='Choose execute: local, selenoid')
+    parser.addoption('--executor', action='store', default='selenoid', help='Choose execute: local, selenoid')
     parser.addoption('--vnc', action='store', default='disable', help='enableVNC: enable, disable')
     parser.addoption('--video', action='store', default='disable', help='Saving Video: enable, disable')
 
