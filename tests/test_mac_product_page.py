@@ -3,7 +3,6 @@ import pytest
 from pages.product_page import ProductPage
 from pages.locators import BasePageLocators
 from pages.locators import SearchPageLocators
-from pages.locators import ItemPageLocators
 from pages.locators import MacPageLocators
 from pages.product_page import locators_list
 from pages import links

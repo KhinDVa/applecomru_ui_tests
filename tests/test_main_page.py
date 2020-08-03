@@ -3,7 +3,6 @@ import allure
 import pytest
 from pages.locators import BasePageLocators
 from pages.locators import SearchPageLocators
-from pages.locators import SigninPageLocators
 from pages import links
 
 

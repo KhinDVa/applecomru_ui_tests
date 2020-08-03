@@ -1,10 +1,4 @@
 from pages.base_page import BasePage
-from .locators import MacPageLocators
-from .locators import IpadPageLocators
-from .locators import IphonePageLocators
-from .locators import WatchPageLocators
-from .locators import TvPageLocators
-from .locators import MusicPageLocators
 
 
 def locators_list(locators_name):

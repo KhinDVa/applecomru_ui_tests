@@ -1,15 +1,10 @@
 from .locators import BasePageLocators
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import NoAlertPresentException
-from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.keys import Keys
 
 
-
-class BasePage():
+class BasePage:
     def __init__(self, browser, url):
         self.browser = browser
         self.url = url
@@ -41,7 +36,6 @@ class BasePage():
     def go_to_support_page(self):
         self.browser.find_element(*BasePageLocators.SUPPORT_TOP_MENU_BTN).click()
 
-
     def go_to_basket(self):
         self.browser.find_element(*BasePageLocators.BAG_TOP_MENU_BTN).click()
         self.browser.find_element(*BasePageLocators.BASKET_OVERLAY_BTN).click()
@@ -65,7 +59,6 @@ class BasePage():
 
     def is_element_displayed(self, locator):
         return self.browser.find_element(*locator).is_displayed()
-
 
     def send_string(self, locator, text):
         self.browser.find_element(*locator).send_keys(text)
