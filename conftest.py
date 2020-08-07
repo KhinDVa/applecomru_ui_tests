@@ -6,13 +6,15 @@ import pip
 import platform
 import xdist
 import selenium
+import os
 
 
 def pytest_addoption(parser):
     parser.addoption('--browser', action='store', default='chrome', help='Available: chrome, firefox, opera')
-    parser.addoption('--executor', action='store', default='selenoid', help='Choose execute: local, selenoid')
+    parser.addoption('--executor', action='store', default='local', help='Choose execute: local, selenoid')
     parser.addoption('--vnc', action='store', default='disable', help='enableVNC: enable, disable')
     parser.addoption('--video', action='store', default='disable', help='Saving Video: enable, disable')
+
 
 
 @pytest.hookimpl(hookwrapper=True, tryfirst=True)
@@ -52,16 +54,18 @@ def browser(request):
     browser.implicitly_wait(10)
     yield browser
 
-    env_file = open('./allure_results/environment.properties', 'w+')
-    env_file.write(f'OS.version={platform.platform()}'
-                   f'\nPython.version={platform.python_version()}'
-                   f'\nPytest.version={pytest.__version__}'
-                   f'\nSelenium.version={selenium.__version__}'
-                   f'\nPip.version={pip.__version__}'
-                   f'\nXdist.version={xdist.__version__}'
-                   f'\nExecutor.type={request.config.getoption("--executor")}'
-                   f'\nBrowser={request.config.getoption("--browser")}')
-    env_file.close()
+
+    if request.config.getoption('--alluredir') == 'allure_results':
+        env_file = open('./allure_results/environment.properties', 'w+')
+        env_file.write(f'OS.version={platform.platform()}'
+                       f'\nPython.version={platform.python_version()}'
+                       f'\nPytest.version={pytest.__version__}'
+                       f'\nSelenium.version={selenium.__version__}'
+                       f'\nPip.version={pip.__version__}'
+                       f'\nXdist.version={xdist.__version__}'
+                       f'\nExecutor.type={request.config.getoption("--executor")}'
+                       f'\nBrowser={request.config.getoption("--browser")}')
+        env_file.close()
 
     if request.node.rep_call.failed:
         try:
@@ -76,6 +80,3 @@ def browser(request):
 
     with allure.step('Закрываем браузер'):
         browser.quit()
-
-
-
